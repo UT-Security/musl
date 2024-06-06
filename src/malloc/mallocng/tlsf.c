@@ -1100,27 +1100,36 @@ static int tlsf_init()
     return 1;
 }
 
+static size_t ceil(size_t size, size_t align) {
+    size_t mask = align - 1;
+    return (size + mask) & ~mask;
+}
+
 void* __libc_tlsf_map(size_t size, size_t pagesize)
 {
+    size = ceil(size, pagesize);
     if (size > POOL_SIZE) {
-        return mmap(0, size, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
+        void* x = mmap(0, size, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
+        return x;
     }
     if (!tlsf && !tlsf_init())
         return (void*) -1;
-    void* p = tlsf_malloc(tlsf, size);
+    void* p = tlsf_memalign(tlsf, pagesize, size);
     if (!p) {
-        void* map = mmap(0, POOL_SIZE, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
+        void* map = mmap(0, POOL_SIZE * 2, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
         if (map == (void*) -1)
             return (void*) -1;
-        tlsf_add_pool(tlsf, map, POOL_SIZE);
+        tlsf_add_pool(tlsf, map, POOL_SIZE * 2);
+        p = tlsf_memalign(tlsf, pagesize, size);
     }
-    p = tlsf_memalign(tlsf, pagesize, size);
     assert(p != NULL);
+    memset(p, 0, size);
     return p;
 }
 
-void __libc_tlsf_unmap(void* ptr, size_t size)
+void __libc_tlsf_unmap(void* ptr, size_t size, size_t pagesize)
 {
+    size = ceil(size, pagesize);
     if (size > POOL_SIZE) {
         munmap(ptr, size);
         return;

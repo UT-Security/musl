@@ -145,7 +145,7 @@ void free(void *p)
 	struct mapinfo mi = nontrivial_free(g, idx);
 	if (mi.len) {
 		int e = errno;
-		__libc_tlsf_unmap(mi.base, mi.len);
+		__libc_tlsf_unmap(mi.base, mi.len, PGSZ);
 		errno = e;
 	}
     unlock();

@@ -247,7 +247,7 @@ static struct meta *alloc_group(int sc, size_t req)
 			}
 		}
 
-		p = __libc_tlsf_map(needed, pagesize);
+		p = __libc_tlsf_map(needed, PGSZ);
 		if (p==MAP_FAILED) {
 			free_meta(m);
 			return 0;
@@ -317,8 +317,8 @@ void *malloc(size_t n)
 		step_seq();
 		g = alloc_meta();
 		if (!g) {
+            __libc_tlsf_unmap(p, needed, PGSZ);
 			unlock();
-			__libc_tlsf_unmap(p, needed);
 			return 0;
 		}
 		g->mem = p;

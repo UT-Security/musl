@@ -51,7 +51,7 @@ typedef void* pool_t;
 
 /* malloc/memalign/realloc/free replacements. */
 void* __libc_tlsf_map(size_t bytes, size_t pagesize);
-void __libc_tlsf_unmap(void* ptr, size_t size);
+void __libc_tlsf_unmap(void* ptr, size_t size, size_t pagesize);
 void __libc_tlsf_realloc(void* ptr, size_t size, size_t new_size);
 
 #if defined(__cplusplus)
