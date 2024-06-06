@@ -3,6 +3,7 @@
 #include <sys/mman.h>
 
 #include "meta.h"
+#include "tlsf.h"
 
 struct mapinfo {
 	void *base;
@@ -142,10 +143,10 @@ void free(void *p)
 
 	wrlock();
 	struct mapinfo mi = nontrivial_free(g, idx);
-	unlock();
 	if (mi.len) {
 		int e = errno;
-		munmap(mi.base, mi.len);
+		__libc_tlsf_unmap(mi.base, mi.len);
 		errno = e;
 	}
+    unlock();
 }

@@ -6,6 +6,7 @@
 #include <errno.h>
 
 #include "meta.h"
+#include "tlsf.h"
 
 LOCK_OBJ_DEF;
 
@@ -246,7 +247,7 @@ static struct meta *alloc_group(int sc, size_t req)
 			}
 		}
 
-		p = mmap(0, needed, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
+		p = __libc_tlsf_map(needed, pagesize);
 		if (p==MAP_FAILED) {
 			free_meta(m);
 			return 0;
@@ -307,15 +308,17 @@ void *malloc(size_t n)
 
 	if (n >= MMAP_THRESHOLD) {
 		size_t needed = n + IB + UNIT;
-		void *p = mmap(0, needed, PROT_READ|PROT_WRITE,
-			MAP_PRIVATE|MAP_ANON, -1, 0);
-		if (p==MAP_FAILED) return 0;
 		wrlock();
+        void *p = __libc_tlsf_map(needed, PGSZ);
+        if (p==MAP_FAILED) {
+            unlock();
+            return 0;
+        }
 		step_seq();
 		g = alloc_meta();
 		if (!g) {
 			unlock();
-			munmap(p, needed);
+			__libc_tlsf_unmap(p, needed);
 			return 0;
 		}
 		g->mem = p;
