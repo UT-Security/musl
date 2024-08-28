@@ -72,6 +72,7 @@ memset:
 	and     valw, valw, 255
 	bic     dst, dstin, 15
 	str     q0, [dstin]
+#if 0
 	cmp     count, 160
 	ccmp    valw, 0, 0, hs
 	b.ne    .Lno_zva
@@ -97,6 +98,7 @@ memset:
 	stp     q0, q0, [dstend, -64]
 	stp     q0, q0, [dstend, -32]
 	ret
+#endif
 
 .Lno_zva:
 	sub     count, dstend, dst      /* Count is 16 too large.  */

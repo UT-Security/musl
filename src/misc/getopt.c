@@ -7,7 +7,11 @@
 #include "locale_impl.h"
 #include "stdio_impl.h"
 
+#pragma weak optarg
 char *optarg;
+#pragma weak optind
+#pragma weak opterr
+#pragma weak optopt
 int optind=1, opterr=1, optopt, __optpos, __optreset=0;
 
 #define optpos __optpos

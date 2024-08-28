@@ -10,14 +10,17 @@ __tlsdesc_static:
 .hidden __tlsdesc_dynamic
 .type __tlsdesc_dynamic,@function
 __tlsdesc_dynamic:
-	mov 8(%rax),%rax
 	push %rdx
-	mov %fs:8,%rdx
+	mov 8(%rax),%rdx
+	mov %fs:0,%rax
+	mov 8(%rax), %rax
 	push %rcx
-	mov (%rax),%rcx
-	mov 8(%rax),%rax
-	add (%rdx,%rcx,8),%rax
+	mov (%rdx),%rcx
+	mov 8(%rdx),%rdx
+	add (%rax,%rcx,8),%rdx
 	pop %rcx
-	sub %fs:0,%rax
+	mov %fs:0,%rax
+	sub %rax,%rdx
+	mov %rdx,%rax
 	pop %rdx
 	ret
