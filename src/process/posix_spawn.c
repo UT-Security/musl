@@ -149,7 +149,7 @@ static int child(void *args_vp)
 		? &attr->__mask : &args->oldmask, 0);
 
 	int (*exec)(const char *, char *const *, char *const *) =
-		attr->__fn ? (int (*)())attr->__fn : execve;
+		attr->__fn ? (int (*)(const char*, char *const[], char *const[]))attr->__fn : execve;
 
 	exec(args->path, args->argv, args->envp);
 	ret = -errno;

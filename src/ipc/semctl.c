@@ -25,7 +25,7 @@ int semctl(int id, int num, int cmd, ...)
 	case SEM_STAT & ~IPC_TIME64:
 	case SEM_STAT_ANY & ~IPC_TIME64:
 		va_start(ap, cmd);
-		arg = va_arg(ap, union semun);
+		/* arg = va_arg(ap, union semun); */
 		va_end(ap);
 	}
 #if IPC_TIME64

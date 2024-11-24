@@ -7,7 +7,7 @@
 
 #include "meta.h"
 
-LOCK_OBJ_DEF;
+LOCK_OBJ_DEF
 
 const uint16_t size_classes[] = {
 	1, 2, 3, 4, 5, 6, 7, 8,
