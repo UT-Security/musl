@@ -3,8 +3,6 @@
 #include "pthread_impl.h"
 #include "syscall.h"
 
-hidden long __cancel(), __syscall_cp_asm(), __syscall_cp_c();
-
 long __cancel()
 {
 	pthread_t self = __pthread_self();
