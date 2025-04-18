@@ -201,23 +201,10 @@ long sysconf(int name)
 		return DELAYTIMER_MAX;
 	case JT_NPROCESSORS_CONF & 255:
 	case JT_NPROCESSORS_ONLN & 255: ;
-		unsigned char set[128] = {1};
-		int i, cnt;
-		__syscall(SYS_sched_getaffinity, 0, sizeof set, set);
-		for (i=cnt=0; i<sizeof set; i++)
-			for (; set[i]; set[i]&=set[i]-1, cnt++);
-		return cnt;
+        return EINVAL;
 	case JT_PHYS_PAGES & 255:
 	case JT_AVPHYS_PAGES & 255: ;
-		unsigned long long mem;
-		struct sysinfo si;
-		__lsysinfo(&si);
-		if (!si.mem_unit) si.mem_unit = 1;
-		if (name==_SC_PHYS_PAGES) mem = si.totalram;
-		else mem = si.freeram + si.bufferram;
-		mem *= si.mem_unit;
-		mem /= PAGE_SIZE;
-		return (mem > LONG_MAX) ? LONG_MAX : mem;
+        return EINVAL;
 	case JT_MINSIGSTKSZ & 255:
 	case JT_SIGSTKSZ & 255: ;
 		/* Value from auxv/kernel is only sigfame size. Clamp it

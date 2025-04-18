@@ -4,7 +4,6 @@
 
 int login_tty(int fd)
 {
-	setsid();
 	if (ioctl(fd, TIOCSCTTY, (char *)0)) return -1;
 	dup2(fd, 0);
 	dup2(fd, 1);

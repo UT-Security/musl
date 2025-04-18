@@ -10,10 +10,7 @@ int pthread_getschedparam(pthread_t t, int *restrict policy, struct sched_param 
 	if (!t->tid) {
 		r = ESRCH;
 	} else {
-		r = -__syscall(SYS_sched_getparam, t->tid, param);
-		if (!r) {
-			*policy = __syscall(SYS_sched_getscheduler, t->tid);
-		}
+        r = ENOSYS;
 	}
 	UNLOCK(t->killlock);
 	__restore_sigs(&set);

@@ -66,20 +66,8 @@ static int child(void *args_vp)
 		__libc_sigaction(i, &sa, 0);
 	}
 
-	if (attr->__flags & POSIX_SPAWN_SETSID)
-		if ((ret=__syscall(SYS_setsid)) < 0)
-			goto fail;
-
 	if (attr->__flags & POSIX_SPAWN_SETPGROUP)
 		if ((ret=__syscall(SYS_setpgid, 0, attr->__pgrp)))
-			goto fail;
-
-	/* Use syscalls directly because the library functions attempt
-	 * to do a multi-threaded synchronized id-change, which would
-	 * trash the parent's state. */
-	if (attr->__flags & POSIX_SPAWN_RESETIDS)
-		if ((ret=__syscall(SYS_setgid, __syscall(SYS_getgid))) ||
-		    (ret=__syscall(SYS_setuid, __syscall(SYS_getuid))) )
 			goto fail;
 
 	if (fa && fa->__actions) {

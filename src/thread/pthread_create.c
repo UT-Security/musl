@@ -155,11 +155,6 @@ _Noreturn void __pthread_exit(void *result)
 		 * moments of existence. */
 		__block_all_sigs(&set);
 
-		/* Robust list will no longer be valid, and was already
-		 * processed above, so unregister it with the kernel. */
-		if (self->robust_list.off)
-			__syscall(SYS_set_robust_list, 0, 3*sizeof(long));
-
 		/* The following call unmaps the thread's stack mapping
 		 * and then exits without touching the stack. */
 		__unmapself(self->map_base, self->map_size);
@@ -361,8 +356,7 @@ int __pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict att
 	if (ret < 0) {
 		ret = -EAGAIN;
 	} else if (attr._a_sched) {
-		ret = __syscall(SYS_sched_setscheduler,
-			new->tid, attr._a_policy, &attr._a_prio);
+        ret = -ENOSYS;
 		if (a_swap(&args->control, ret ? 3 : 0)==2)
 			__wake(&args->control, 1, 1);
 		if (ret)

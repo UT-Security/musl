@@ -21,8 +21,6 @@ int daemon(int nochdir, int noclose)
 	default: _exit(0);
 	}
 
-	if (setsid() < 0) return -1;
-
 	switch(fork()) {
 	case 0: break;
 	case -1: return -1;
