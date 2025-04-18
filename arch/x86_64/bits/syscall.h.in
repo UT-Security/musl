@@ -80,7 +80,6 @@ long __syscall_##x(long arg1, long arg2, long arg3, \
 #define __NR_pwritev ((long)&__syscall_pwritev)
 #define __NR_pwritev2 ((long)&__syscall_pwritev2)
 #define __NR_read ((long)&__syscall_read)
-#define __NR_readlink ((long)&__syscall_readlink)
 #define __NR_readlinkat ((long)&__syscall_readlinkat)
 #define __NR_readv ((long)&__syscall_readv)
 #define __NR_recvfrom ((long)&__syscall_recvfrom)
