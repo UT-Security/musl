@@ -48,4 +48,4 @@ static inline long __syscall6(long n, long a1, long a2, long a3, long a4,
 #undef SYSCALL_STATIC
 #define SYSCALL_STATIC 1
 
-#define SYSCALL_FADVISE_6_ARG
+#define IPC_64 0
