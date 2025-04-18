@@ -44,7 +44,7 @@ static void notify_signal(struct sigevent *sev)
 		.si_value = sev->sigev_value,
 		.si_code = SI_ASYNCIO,
 		.si_pid = getpid(),
-		.si_uid = getuid()
+		.si_uid = 0
 	};
 	__syscall(SYS_rt_sigqueueinfo, si.si_pid, si.si_signo, &si);
 }

@@ -50,7 +50,6 @@ long __syscall_##x(long arg1, long arg2, long arg3, \
 #define __NR_getsockname ((long)&__syscall_getsockname)
 #define __NR_gettid ((long)&__syscall_gettid)
 #define __NR_gettimeofday ((long)&__syscall_gettimeofday)
-#define __NR_getuid ((long)&__syscall_getuid)
 #define __NR_ioctl ((long)&__syscall_ioctl)
 #define __NR_kill ((long)&__syscall_kill)
 #define __NR_linkat ((long)&__syscall_linkat)

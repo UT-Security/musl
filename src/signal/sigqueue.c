@@ -13,7 +13,7 @@ int sigqueue(pid_t pid, int sig, const union sigval value)
 	si.si_signo = sig;
 	si.si_code = SI_QUEUE;
 	si.si_value = value;
-	si.si_uid = getuid();
+	si.si_uid = 0;
 	__block_app_sigs(&set);
 	si.si_pid = getpid();
 	r = syscall(SYS_rt_sigqueueinfo, pid, sig, &si);
