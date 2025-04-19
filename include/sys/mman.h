@@ -121,21 +121,13 @@ int msync (void *, size_t, int);
 
 int posix_madvise (void *, size_t, int);
 
-int mlock (const void *, size_t);
-int munlock (const void *, size_t);
-int mlockall (int);
-int munlockall (void);
-
 #ifdef _GNU_SOURCE
 void *mremap (void *, size_t, size_t, int, ...);
 int remap_file_pages (void *, size_t, int, size_t, int);
-int memfd_create (const char *, unsigned);
-int mlock2 (const void *, size_t, unsigned);
 #endif
 
 #if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
 int madvise (void *, size_t, int);
-int mincore (void *, size_t, unsigned char *);
 #endif
 
 int shm_open (const char *, int, mode_t);
