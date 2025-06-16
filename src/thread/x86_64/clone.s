@@ -25,4 +25,5 @@ __clone:
 	mov $60,%al
 	syscall
 	hlt
+.p2align 5
 1:	ret
