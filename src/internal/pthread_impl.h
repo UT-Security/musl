@@ -30,6 +30,7 @@ struct pthread {
 #endif
 	uintptr_t canary;
 #endif
+	uintptr_t lfi_base;
 
 	/* Part 2 -- implementation details, non-ABI. */
 	int tid;
